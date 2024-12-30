@@ -14,7 +14,6 @@ import NotFoundPage from './pages/NotFoundPage';
 // Protected Routes
 import ProtectedRoute from './routes/ProtectedRoute';
 import RedirectAuthenticatedUsers from './routes/RedirectAuthenticatedUsers';
-
 // User Auth Pages
 import LoginPage from './pages/authPages/LoginPage';
 import SignUpPage from './pages/authPages/SignUpPage';

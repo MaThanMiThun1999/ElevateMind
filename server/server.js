@@ -13,6 +13,7 @@ const userRoutes = require("./routes/user.routes");
 const checkInRoutes = require("./routes/checkIn.routes");
 const { sendDailyCheckinReminder } = require("./services/emailService");
 const User = require("./models/user.model");
+const chatBotController = require("./controllers/common/ai.controller");
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.get("/", (req, res) => {
 app.use(`/api/${VERSION}/auth`, authRoutes);
 app.use(`/api/${VERSION}/user`, userRoutes);
 app.use(`/api/${VERSION}/check-in`, checkInRoutes);
+app.use(`/api/${VERSION}/bot`, chatBotController);
 
 logger.info("Routes registered successfully".green.bold);
 

@@ -4,7 +4,6 @@ import { Toaster } from 'react-hot-toast';
 import { AnalyticsProvider } from './contexts/analyticsContext';
 
 const App = () => {
-
   const memoizedToaster = useMemo(() => <Toaster />, []);
 
   return (
