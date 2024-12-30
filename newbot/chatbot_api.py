@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import re
 import random
 import torch
-from transformers import DistilBertTokenizer, DistilBertModel, AdamW
+from transformers import BertTokenizer, BertForSequenceClassification, AdamW, BertModel
 from googletrans import Translator
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
@@ -57,8 +57,8 @@ def preprocess_text(s):
 df['patterns'] = df['patterns'].apply(preprocess_text)
 df['tag'] = df['tag'].apply(preprocess_text)
 
-# Initialize DistilBERT tokenizer
-tokenizer = DistilBertTokenizer.from_pretrained('distilbert/distilbert-base-uncased')
+# Initialize BERT tokenizer - CHANGED TO MULTILINGUAL
+tokenizer = BertTokenizer.from_pretrained('shsha0110/bert-base-multilingual-cased-based-encoder')
 max_len = 128
 
 # Encoding labels
@@ -91,23 +91,24 @@ X = df['patterns']
 input_ids, attention_masks = encode_texts(X, max_len)
 labels = torch.tensor(y_encoded)
 
-# Define a classification model using DistilBert Model
-class DistilBertClassifier(nn.Module):
+# Define a classification model using Bert Model
+class BertClassifier(nn.Module):
     def __init__(self, num_labels):
-        super(DistilBertClassifier, self).__init__()
-        self.distilbert = DistilBertModel.from_pretrained('distilbert/distilbert-base-uncased')
+        super(BertClassifier, self).__init__()
+        # CHANGED TO MULTILINGUAL MODEL
+        self.bert = BertModel.from_pretrained('shsha0110/bert-base-multilingual-cased-based-encoder')
         self.dropout = nn.Dropout(0.1)
-        self.classifier = nn.Linear(768, num_labels) # 768 is the output size of base distilbert
+        self.classifier = nn.Linear(768, num_labels) # 768 is the output size of base bert
 
     def forward(self, input_ids, attention_mask):
-        outputs = self.distilbert(input_ids=input_ids, attention_mask=attention_mask)
-        pooled_output = outputs.last_hidden_state[:, 0, :] # Use the [CLS] token's output
+        outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask)
+        pooled_output = outputs.pooler_output
         pooled_output = self.dropout(pooled_output)
         logits = self.classifier(pooled_output)
         return logits
 
 # Load the Model (Load pre-trained weights):
-model = DistilBertClassifier(num_labels)
+model = BertClassifier(num_labels)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
@@ -125,7 +126,7 @@ else:
     train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=16)
     validation_dataloader = DataLoader(val_dataset, batch_size=16)
 
-    # Initialize DistilBERT model
+    # Initialize BERT model
     
     optimizer = AdamW(model.parameters(), lr=2e-5)
 
