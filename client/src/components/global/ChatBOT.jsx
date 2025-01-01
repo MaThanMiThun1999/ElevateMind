@@ -201,7 +201,7 @@ export default function ChatBOT() {
                             },
                           }}
                         >
-                          {msg.content.data || 'No data available.'}
+                          {msg.content.data || 'Sorry, I could not able to respond, Please try again.'}
                         </ReactMarkdown>
                       </div>
                       <div className="flex items-center justify-end">
