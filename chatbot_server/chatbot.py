@@ -13,8 +13,11 @@ from torch.utils.data import DataLoader, Dataset, random_split
 import pandas as pd
 import torch.nn as nn
 import psutil
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
