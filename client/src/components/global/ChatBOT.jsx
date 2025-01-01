@@ -163,7 +163,7 @@ export default function ChatBOT() {
                         You
                         <span className="text-[10px] ml-2 text-gray-800  font-bold sm:text-xs">
                           {msg.content.timestamp}
-                        </span>
+                        </span> 
                       </span>
                     </div>
                     <div className="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center sm:w-8 sm:h-8">
@@ -208,7 +208,7 @@ export default function ChatBOT() {
                         <span className="text-[10px] text-gray-800  font-bold sm:text-xs">
                           Pandora
                           <span className="text-[10px] ml-2 text-gray-800  font-bold sm:text-xs">
-                            {msg.content.timestamp}
+                            {formatCustomDate(new Date(), 'h:mm A')}
                           </span>
                         </span>
                       </div>
